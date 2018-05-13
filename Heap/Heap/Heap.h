@@ -19,6 +19,8 @@ typedef struct Heap
 }Heap;
 
 
+//堆的初始化
+void HeapInit(Heap *hp, Compare cmp);
 
 //创建堆
 void CreateHeap(Heap *hp, DataType *array, int size);
