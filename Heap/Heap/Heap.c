@@ -1,6 +1,17 @@
 #include "Heap.h"
 
 
+//堆的初始化
+void HeapInit(Heap *hp, Compare cmp)
+{
+	if (NULL == hp)
+		return;
+
+	hp->_size = 0;
+	hp->cmp = cmp;
+}
+
+
 //创建堆
 void CreateHeap(Heap *hp, DataType *array, int size)
  {
@@ -42,7 +53,7 @@ void AdjustUp(Heap *hp, int child)
 
 	while (child)
 	{
-		if (hp->_array[parent] > hp->_array[child])
+		if (hp->cmp(hp->_array[child] , hp->_array[parent]))
 		{
 			Swop(&hp->_array[parent], &hp->_array[child]);
 			child = parent;
@@ -64,12 +75,13 @@ void AdjustDown(Heap  *hp, DataType parent)
 	while (child < hp->_size)
 	{
 		//找到孩子中较小的一个
-		if ((child+1) < hp->_size && hp->_array[child] > hp->_array[child + 1])
+		if ((child+1) < hp->_size && 
+			hp->cmp(hp->_array[child+1], hp->_array[child]))
 		{
 			child += 1;
 		}
 		//如果双亲大于孩子，则交换
-		if (hp->_array[parent] > hp->_array[child])
+		if (hp->cmp(hp->_array[child], hp->_array[parent]))
 		{
 			Swop(&hp->_array[parent], &hp->_array[child]);
 			parent = child;
@@ -114,7 +126,7 @@ void CheckCatacity(Heap *hp)
 }
 
 //删除
-void DeleteHeap(Heap *hp, DataType data)
+void DeleteHeap(Heap *hp)
 {
 	assert(hp);
 	if (NULL == hp)
@@ -135,7 +147,7 @@ DataType TopHeap(Heap *hp)
 	return hp->_array[0];
 }
 
-//元素个数
+//查看元素个数
 int SizeHeap(Heap *hp)
 {
 	return hp->_size;
@@ -150,11 +162,46 @@ int EmptyHeap(Heap *hp)
 	return 0;
 }
 
+
+//销毁堆
+void DestoryHeap(Heap *hp)
+{
+	assert(hp);
+	if (EmptyHeap(hp))
+		return;
+
+	hp->_size = 0;
+	hp->cmp = NULL;
+}
+
+
+
+//小堆
+int Less(DataType a, DataType b)
+{
+	return  a < b;
+}
+
+
+//大堆
+int Greater(DataType a, DataType b)
+{
+	return a > b;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
 void TestHeap()
 {
 	Heap hp;
 	int array[] = { 53, 17, 78, 9, 45, 65, 87, 23, 31 };
 
+	HeapInit(&hp, Less);
 	CreateHeap(&hp, array, sizeof(array) / sizeof(array[0]));
 	InsertHeap(&hp, 13);
+
+	DataType top = TopHeap(&hp);
+	int ret = EmptyHeap(&hp);
+
+	DestoryHeap(&hp);
 }
