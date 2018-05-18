@@ -25,27 +25,21 @@ void HashTableInsert(HashTable *ht, DataType data)
 	HashAddr = HashFunc(data);
 	StartAddr = HashAddr;
 
-	while (1)
+	while (EMPTY != ht->table[HashAddr]._s)
 	{
 		if (EXIST != ht->table[HashAddr]._s)
-		{
-			if (EMPTY == ht->table[HashAddr]._s)
-			{
-				ht->table[HashAddr]._data = data;
-				ht->_size++;
-				ht->_total++;
-				ht->table[HashAddr]._s = EXIST;
-				break;
-			}
-		}
-
-		HashAddr++;
+			HashAddr++;
 
 		if (MAX_SIZE == HashAddr)
 			HashAddr = 0;
 		if (HashAddr == StartAddr)
 			break;
 	}
+
+	ht->table[HashAddr]._data = data;
+	ht->_size++;
+	ht->_total++;
+	ht->table[HashAddr]._s = EXIST;
 }
 
 //É¾³ý
@@ -71,23 +65,24 @@ int HashTableFind(HashTable *ht, DataType data)
 
 	HashAddr = HashFunc(data);
 	StartAddr = HashAddr;
-	while (ht->table[HashAddr]._data != data)
+
+	while (EMPTY != ht->table[HashAddr]._s)
 	{
-		if (EXIST != ht->table[HashAddr]._s)
+		if (ht->table[HashAddr]._data == data)
 		{
-			if (EMPTY == ht->table[HashAddr]._s)
-			{
-				HashAddr++;
-			}
+			return HashAddr;
 		}
+
+		HashAddr++;
 
 		if (MAX_SIZE == HashAddr)
 			HashAddr = 0;
+
 		if (HashAddr == StartAddr)
-			return -1;
+			break;
 	}
 
-	return HashAddr;
+	return -1;
 }
 
 //ÔªËØ¸öÊý
@@ -122,7 +117,8 @@ void Test()
 	HashTableInsert(&ht, 67);
 	HashTableInsert(&ht, 80);
 	HashTableDelete(&ht, 11);
-	HashTableFind(&ht, 11);
+	HashTableInsert(&ht, 21);
+	DataType num = HashTableFind(&ht, 11);
 	int size = HashTableSize(&ht); 
 	int ret= HashTableEmpty(&ht);
 }
