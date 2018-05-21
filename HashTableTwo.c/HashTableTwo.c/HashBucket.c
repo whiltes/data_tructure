@@ -217,7 +217,7 @@ void DestroyHashBucket(HashBucket* ht)
 }
 
 //¹þÏ£º¯Êý
-int HashBucketFunc(HashBucket* ht, int data)
+int HashFunc(HashBucket* ht, int data)
 {
 	assert(ht);
 
