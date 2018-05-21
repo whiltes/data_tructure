@@ -1,9 +1,12 @@
-#include "HashTable.h"
+//#include "HashTable.h"
+
+#include "HashBucket.h"
 
 int main()
 {
-	TestHashData();
+	//TestHashData();
 	//TestHashStr();
-
+//	TestData();
+	TestStr();
 	return 0;
 }

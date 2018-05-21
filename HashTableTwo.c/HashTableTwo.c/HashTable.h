@@ -71,17 +71,6 @@ int HashTableEmpty(HashTable *ht);
 // 销毁哈希表
 void HashTableDestory(HashTable* ht);
 
-
-////////////////////////////////////////
-//探测方法
-
-//线性探测
-int IsLineDete(HashTable *ht, int HashAddr);
-
-//二次探测
-int DeteTwo(HashTable *ht, int HashAddr,int i);
-
-
 /////////////////////////////////////////////
 //辅助方法
 
