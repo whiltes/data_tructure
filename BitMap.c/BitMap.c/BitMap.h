@@ -25,6 +25,13 @@ void BitMapReset(BitMap *bm, size_t data);
 //查找
 int BitMapFind(BitMap *bm, size_t data);
 
+//查看元素个数
+int BitMapSize(BitMap * bm);
+
+
+//查看bit位为1的个数
+int BitMapCount(BitMap* bm);
+
 //销毁
 void BitMapDestory(BitMap *bm);
 
